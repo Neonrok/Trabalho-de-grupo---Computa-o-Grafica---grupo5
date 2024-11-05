@@ -5,13 +5,13 @@ let hei = 450;
 
 let x = 0;
 let y = 0;
-//let arca = [];
+let arca = [];
 
 let c = document.querySelector(".cava");
 c.width = wid;
 c.height = hei;
 
-//éstas funções servem apenas para desmontar alguns processoa para que possam ser reutilizados
+//èstas funções servem apenas para desmontar alguns processoa para que possam ser reutilizados
 const mapCordsX = function(){
     c.addEventListener('click', e => {
         x = e.offsetX;
@@ -24,13 +24,23 @@ const mapCordsY = function(){
     });
     return y;
 };
-const sav = function(x, y){
-    
-    let addArc = new arc(z, x, y)
-
+const sav = function(){
+    let z = arca.length;
+    x = mapCordsX();
+    y = mapCordsY();
+    let addArc = {z, x, y};
+    arca.push(addArc);
+    console.log(addArc, arca);
 }
+mapCordsX();
+mapCordsY();
+sav();
+arca.splice(0, 1);
 
+
+const test = c.addEventListener('click', function(){sav();})
 
 let cav = c.getContext("2d");
+
 
 

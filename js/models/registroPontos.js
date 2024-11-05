@@ -1,11 +1,7 @@
 
-export class ponts{
+export class NSarc{
     Id = 0;
-    x = 0;
-    y = 0;
-    constructor(Id, x, y){
+    constructor(Id){
         this.Id = Id;
-        this.x = x;
-        this.y = y;
     }
 };
