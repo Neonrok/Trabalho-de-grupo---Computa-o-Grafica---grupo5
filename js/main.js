@@ -1,4 +1,4 @@
-import * as arc from "./models/registroPontos.js";
+import * as NS from "./models/registroPontos.js";
 
 let wid = 600;
 let hei = 450;
