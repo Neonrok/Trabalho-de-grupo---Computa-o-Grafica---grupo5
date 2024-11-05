@@ -9,7 +9,7 @@ let arca = [];
 
 let c = document.querySelector(".cava");
 c.width = wid;
-c.height = hei;
+c.height = hei; 
 
 //èstas funções servem apenas para desmontar alguns processoa para que possam ser reutilizados
 const mapCordsX = function(){
