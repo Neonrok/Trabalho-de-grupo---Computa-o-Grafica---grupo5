@@ -3,6 +3,18 @@ body{
     
 }
 
+.reordenar{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.limites_visuais{
+    border: solid black 12px;
+    border-radius: 12px;
+    padding: 3%;
+}
+
 .cava{
     border: solid black 3px;
 }
