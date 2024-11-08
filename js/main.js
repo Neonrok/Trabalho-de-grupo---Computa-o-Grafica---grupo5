@@ -8,6 +8,7 @@ let r=10
 let x = 0;
 let y = 0;
 let arca = [];
+const Draw = document.getElementById('SDraw');
 
 let c = document.querySelector(".cava");
 c.width = wid;
@@ -47,6 +48,35 @@ const DrawPoint = function(mX, mY){
     //drawLine()
 }
 
+const render = function(){
+    for(let cot = 0; cot < arca.length; cot++){
+        x=arca[cot].x;
+        y=arca[cot].y;
+        DrawPoint(x, y);
+    };
+    x=0;
+    y=0;
+}
+
+
+function drawLine(){
+    if (arca.length>=2){
+        for(let i=0; i+1<arca.length;i++){
+            let p1x = arca[i].x;
+            let p1y = arca[i].y;
+            let p2x = arca[i+1].x;
+            let p2y = arca[i+1].y;
+            cav.moveTo(p1x, p1y);
+            cav.lineTo(p2x, p2y);
+            const grad=cav.createLinearGradient(p1x, p1y, p2x, p2y);
+            grad.addColorStop(0, "lightblue");
+            grad.addColorStop(1, "darkblue");
+            cav.strokeStyle=grad;                    
+            cav.stroke()
+        }
+    }
+}
+
 //não sei o porquê mas quando inicio estas funções as cordenadas aparecem como 0 na primeira vex por isso isto
 mapCordsX();
 mapCordsY();
@@ -59,17 +89,14 @@ let cav = c.getContext("2d");
 const test = c.addEventListener('click', function(){
     sav();
     cav.clearRect(0, 0, wid, hei);
-    for(let cot = 0; cot < arca.length; cot++){
-        x=arca[cot].x;
-        y=arca[cot].y;
-        DrawPoint(x, y);
-    };
-    x=0;
-    y=0;
+    render();
+    drawLine();
 })
 
-
-
-
+Draw.addEventListener('click', function(){
+    cav.clearRect(0, 0, wid, hei);
+    render();
+    
+})
 
 
