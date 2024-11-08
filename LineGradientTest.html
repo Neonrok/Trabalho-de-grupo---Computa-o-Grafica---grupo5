@@ -16,36 +16,36 @@
     <script>
         // GLOBALS
         const canvas = document.querySelector('#myCanvas');
-        const ctx = canvas.getContext("2d");
+        const cav = canvas.getContext("2d");
 
         const W = canvas.width, H = canvas.height;
-        let circles=[]
+        let arca=[]
         let r=10
         canvas.addEventListener("click",e =>{
             let mX= e.offsetX, mY=e.offsetY
             console.log(mX,mY)
-            const grad=ctx.createLinearGradient(mX-r,mY-r, mX+r,mY-r);
+            const grad=cav.createLinearGradient(mX-r,mY-r, mX+r,mY-r);
             grad.addColorStop(0, "lightblue");
             grad.addColorStop(1, "darkblue");
-            ctx.fillStyle=grad;
-            ctx.beginPath();
-            ctx.arc(mX,mY,r,0,2*Math.PI);
-            ctx.fill()
-            ctx.stroke();
-            circles.push([mX,mY])
-            console.log(circles[0][0])
+            cav.fillStyle=grad;
+            cav.beginPath();
+            cav.arc(mX,mY,r,0,2*Math.PI);
+            cav.fill()
+            cav.stroke();
+            arca.push([mX,mY])
+            console.log(arca[0][0])
             drawLine()
         })
         function drawLine(){
-            if (circles.length>=2){
+            if (arca.length>=2){
                 let i=0;
-                    ctx.moveTo(circles[i][0],circles[i][1])
-                    ctx.lineTo(circles[1][0],circles[1][1])
-                    const grad=ctx.createLinearGradient(circles[i][0],circles[i][1], circles[1][0],circles[1][1]);
+                    cav.moveTo(arca[i][0],arca[i][1])
+                    cav.lineTo(arca[1][0],arca[1][1])
+                    const grad=cav.createLinearGradient(arca[i][0],arca[i][1], arca[1][0],arca[1][1]);
                     grad.addColorStop(0, "lightblue");
                     grad.addColorStop(1, "darkblue");
-                    ctx.strokeStyle=grad;                    
-                    ctx.stroke()
+                    cav.strokeStyle=grad;                    
+                    cav.stroke()
                 }
             }
         
