@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <canvas id="myCanvas" width="400" height="400" style="border:solid 2px black">
+        Your browser does not support HTML5 Canvas.
+    </canvas>
+    
+    <script>
+        // GLOBALS
+        const canvas = document.querySelector('#myCanvas');
+        const ctx = canvas.getContext("2d");
+
+        const W = canvas.width, H = canvas.height;
+        let circles=[]
+        let r=10
+        canvas.addEventListener("click",e =>{
+            let mX= e.offsetX, mY=e.offsetY
+            console.log(mX,mY)
+            const grad=ctx.createLinearGradient(mX-r,mY-r, mX+r,mY-r);
+            grad.addColorStop(0, "lightblue");
+            grad.addColorStop(1, "darkblue");
+            ctx.fillStyle=grad;
+            ctx.beginPath();
+            ctx.arc(mX,mY,r,0,2*Math.PI);
+            ctx.fill()
+            ctx.stroke();
+            circles.push([mX,mY])
+            console.log(circles[0][0])
+            drawLine()
+        })
+        function drawLine(){
+            if (circles.length>=2){
+                let i=0;
+                    ctx.moveTo(circles[i][0],circles[i][1])
+                    ctx.lineTo(circles[1][0],circles[1][1])
+                    const grad=ctx.createLinearGradient(circles[i][0],circles[i][1], circles[1][0],circles[1][1]);
+                    grad.addColorStop(0, "lightblue");
+                    grad.addColorStop(1, "darkblue");
+                    ctx.strokeStyle=grad;                    
+                    ctx.stroke()
+                }
+            }
+        
+
+
+    </script>
+</body>
+
+</html>
