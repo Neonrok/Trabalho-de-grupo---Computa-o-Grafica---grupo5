@@ -2,7 +2,8 @@ import * as NS from "./models/registroPontos.js";
 //funões com valores que podem ser alterados
 let wid = 600;
 let hei = 450;
-let r=10
+let r = 10;
+let marge = r*2;
 
 //funções com valores que não podem ser alterados
 let x = 0;
@@ -28,12 +29,19 @@ const mapCordsY = function(){
     return y;
 };
 const sav = function(){
-    let z = arca.length;
+    let l = true;
     x = mapCordsX();
     y = mapCordsY();
-    let addArc = {x, y};
-    arca.push(addArc);
-    console.log(addArc, arca);
+    for(let i = 0; i< arca.length; i++){
+        if(arca[i].x-marge<x && arca[i].x+marge>x && arca[i].y-marge<y && arca[i].y+marge>y){l = false};
+    };
+    if (l){
+        let addArc = {x, y};
+        arca.push(addArc);
+        console.log(addArc, arca);
+    } else {
+        console.log("erro");
+    }
 }
 
 const DrawPoint = function(mX, mY){
@@ -45,13 +53,14 @@ const DrawPoint = function(mX, mY){
     cav.arc(mX,mY,r,0,2*Math.PI);
     cav.fill()
     cav.stroke();
-    //drawLine()
 }
 
 const render = function(){
+    
     for(let cot = 0; cot < arca.length; cot++){
         x=arca[cot].x;
         y=arca[cot].y;
+        
         DrawPoint(x, y);
     };
     x=0;
@@ -72,7 +81,7 @@ function drawLine(){
             grad.addColorStop(0, "lightblue");
             grad.addColorStop(1, "darkblue");
             cav.strokeStyle=grad;                    
-            cav.stroke()
+            cav.stroke();
         }
     }
 }
@@ -86,7 +95,7 @@ arca.splice(0, 1);
 
 let cav = c.getContext("2d");
 
-const test = c.addEventListener('click', function(){
+const toasted = c.addEventListener('click', function(){
     sav();
     cav.clearRect(0, 0, wid, hei);
     render();
