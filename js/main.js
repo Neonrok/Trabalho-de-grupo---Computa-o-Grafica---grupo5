@@ -56,11 +56,9 @@ const DrawPoint = function(mX, mY){
 }
 
 const render = function(){
-    
     for(let cot = 0; cot < arca.length; cot++){
         x=arca[cot].x;
         y=arca[cot].y;
-        
         DrawPoint(x, y);
     };
     x=0;
@@ -95,17 +93,29 @@ arca.splice(0, 1);
 
 let cav = c.getContext("2d");
 
-const toasted = c.addEventListener('click', function(){
+const toasted = c.addEventListener('dblclick', function(){
     sav();
     cav.clearRect(0, 0, wid, hei);
     render();
     drawLine();
 })
 
+const toastoded = c.addEventListener('click', function(){
+    x = mapCordsX();
+    y = mapCordsY();
+    for(let i = 0; i< arca.length; i++){
+        if(arca[i].x-marge<x && arca[i].x+marge>x && arca[i].y-marge<y && arca[i].y+marge>y){
+            arca.splice(i, 1);
+        };
+    };
+    cav.clearRect(0, 0, wid, hei);
+    render()
+    drawLine();
+})
+
 Draw.addEventListener('click', function(){
     cav.clearRect(0, 0, wid, hei);
     render();
-    
 })
 
 
