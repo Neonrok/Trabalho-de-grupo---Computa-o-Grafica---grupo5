@@ -42,7 +42,7 @@ const sav = function(){
     } else {
         console.log("erro");
     }
-}
+};
 
 const DrawPoint = function(mX, mY){
     const grad=cav.createLinearGradient(mX-r,mY-r, mX+r,mY-r);
@@ -53,7 +53,7 @@ const DrawPoint = function(mX, mY){
     cav.arc(mX,mY,r,0,2*Math.PI);
     cav.fill()
     cav.stroke();
-}
+};
 
 const render = function(){
     for(let cot = 0; cot < arca.length; cot++){
@@ -63,10 +63,10 @@ const render = function(){
     };
     x=0;
     y=0;
-}
+};
 
 
-function drawLine(){
+  const drawLine = function(){
     if (arca.length>=2){
         for(let i=0; i+1<arca.length;i++){
             let p1x = arca[i].x;
@@ -82,7 +82,17 @@ function drawLine(){
             cav.stroke();
         }
     }
-}
+};
+
+const movInLines = function(){
+    
+};
+const toMovInvPoint = function(){
+    for(let i=0; i+1<=arca.length;i++){
+        let p1x = arca[i].x;
+        let p1y = arca[i].y;
+    };
+};
 
 //não sei o porquê mas quando inicio estas funções as cordenadas aparecem como 0 na primeira vex por isso isto
 mapCordsX();
@@ -93,14 +103,16 @@ arca.splice(0, 1);
 
 let cav = c.getContext("2d");
 
-const toasted = c.addEventListener('dblclick', function(){
+//Adicionar o ponto
+const toasted = c.addEventListener('click', function(){
     sav();
     cav.clearRect(0, 0, wid, hei);
     render();
     drawLine();
 })
 
-const toastoded = c.addEventListener('click', function(){
+//Remover o ponto
+const toastoded = c.addEventListener('dblclick', function(){
     x = mapCordsX();
     y = mapCordsY();
     for(let i = 0; i< arca.length; i++){
