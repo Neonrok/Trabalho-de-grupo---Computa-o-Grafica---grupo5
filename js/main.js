@@ -155,6 +155,8 @@ Draw.addEventListener('click', function(){
     cav.clearRect(0, 0, wid, hei);
     render();
     drawLine();
+    x=arca[0].x;
+    y=arca[0].y;
     animaltion();
 })
 
