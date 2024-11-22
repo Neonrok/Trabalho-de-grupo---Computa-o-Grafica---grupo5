@@ -86,21 +86,24 @@ const render = function(){
 };
 
 const movInLines = function(){
-    frame+=0.005
+    frame+=0.005;
+    let xS = arca[0].x;
+    let yS = arca[0].y;
+    cav.beginPath();
+    cav.moveTo(x, y);
 // x
-    let x = (1 - frame) **(arca.length-1)* arca[0].x +
+    xS = (1 - frame) **(arca.length-1)* arca[0].x +
     (arca.length-1)* frame * (1 - frame) * arca[1].x +
     frame ** (arca.length-1)* arca[arca.length-1].x;
 // y
-    let y=(1-frame)**(arca.length-1)*arca[0].y+
+    yS=(1-frame)**(arca.length-1)*arca[0].y+
     (arca.length-1)*frame*(1-frame)*arca[1].y+
     frame**(arca.length-1)*arca[arca.length-1].y;
 // desenhar
-    cav.beginPath();
-    console.log(x)
-    console.log(`this is y=${y}`)
-    cav.arc(x,y,2,0,2*Math.PI);
-    cav.fill()
+    cav.lineTo(xS, yS);
+    cav.strokeStyle= "red";   
+    cav.stroke();
+    x=xS;y=yS
 };
 const animaltion = function(){
     movInLines();
