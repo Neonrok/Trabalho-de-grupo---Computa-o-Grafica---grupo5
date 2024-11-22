@@ -62,8 +62,6 @@ const render = function(){
         y=arca[cot].y;
         DrawPoint(x, y);
     };
-    x=0;
-    y=0;
 };
 
 
