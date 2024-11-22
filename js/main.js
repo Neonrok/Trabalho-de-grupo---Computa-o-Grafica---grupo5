@@ -86,7 +86,7 @@ const render = function(){
 };
 
 const movInLines = function(){
-    frame+=0.01
+    frame+=0.005
 // x
     let x = (1 - frame) **(arca.length-1)* arca[0].x +
     (arca.length-1)* frame * (1 - frame) * arca[1].x +
@@ -104,7 +104,9 @@ const movInLines = function(){
 };
 const animaltion = function(){
     movInLines();
-    window.requestAnimationFrame(animaltion);
+    if (frame<=1){
+        window.requestAnimationFrame(animaltion);
+    };
 };
 
 const toMovInvPoint = function(){
@@ -146,6 +148,7 @@ const toastoded = c.addEventListener('dblclick', function(){
 })
 
 Draw.addEventListener('click', function(){
+    frame=0;
     cav.clearRect(0, 0, wid, hei);
     render();
     drawLine();
