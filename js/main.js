@@ -85,20 +85,20 @@ const render = function(){
     }
 };
 
-const movInLines = function(){
+const movInLines = function(f){
     frame+=0.005;
     let xS = arca[0].x;
     let yS = arca[0].y;
     cav.beginPath();
     cav.moveTo(x, y);
 // x
-    xS = (1 - frame) **(arca.length-1)* arca[0].x +
-    (arca.length-1)* frame * (1 - frame) * arca[1].x +
-    frame ** (arca.length-1)* arca[arca.length-1].x;
+    xS = (1 - frame) **(arca.length-1)* arca[f].x +
+    (arca.length-1)* frame * (1 - frame) * arca[f+1].x +
+    frame ** (arca.length-1)* arca[f+2].x;
 // y
-    yS=(1-frame)**(arca.length-1)*arca[0].y+
-    (arca.length-1)*frame*(1-frame)*arca[1].y+
-    frame**(arca.length-1)*arca[arca.length-1].y;
+    yS=(1-frame)**(arca.length-1)*arca[f].y+
+    (arca.length-1)*frame*(1-frame)*arca[f+1].y+
+    frame**(arca.length-1)*arca[f+2].y;
 // desenhar
     cav.lineTo(xS, yS);
     cav.strokeStyle= "red";   
@@ -106,7 +106,10 @@ const movInLines = function(){
     x=xS;y=yS
 };
 const animaltion = function(){
-    movInLines();
+    for(let i = 0; i<arca.length-2; i++){
+        movInLines(i);
+        
+    };
     if (frame<=1){
         window.requestAnimationFrame(animaltion);
     };
