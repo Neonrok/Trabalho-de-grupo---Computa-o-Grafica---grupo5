@@ -6,6 +6,7 @@ let r = 10;
 let marge = r*2;
 
 //funções com valores que não podem ser alterados
+let frame = 0;
 let x = 0;
 let y = 0;
 let arca = [];
@@ -85,8 +86,27 @@ const render = function(){
 };
 
 const movInLines = function(){
-    
+    frame+=0.01
+// x
+    let x = (1 - frame) **(arca.length-1)* arca[0].x +
+    (arca.length-1)* frame * (1 - frame) * arca[1].x +
+    frame ** (arca.length-1)* arca[arca.length-1].x;
+// y
+    let y=(1-frame)**(arca.length-1)*arca[0].y+
+    (arca.length-1)*frame*(1-frame)*arca[1].y+
+    frame**(arca.length-1)*arca[arca.length-1].y;
+// desenhar
+    cav.beginPath();
+    console.log(x)
+    console.log(`this is y=${y}`)
+    cav.arc(x,y,2,0,2*Math.PI);
+    cav.fill()
 };
+const animaltion = function(){
+    movInLines();
+    window.requestAnimationFrame(animaltion);
+};
+
 const toMovInvPoint = function(){
     for(let i=0; i+1<=arca.length;i++){
         let p1x = arca[i].x;
@@ -128,6 +148,8 @@ const toastoded = c.addEventListener('dblclick', function(){
 Draw.addEventListener('click', function(){
     cav.clearRect(0, 0, wid, hei);
     render();
+    drawLine();
+    animaltion();
 })
 
 
