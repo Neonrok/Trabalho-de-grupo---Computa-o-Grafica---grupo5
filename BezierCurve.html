@@ -12,23 +12,29 @@
     <canvas id="myCanvas" width="400" height="400" style="border:solid 2px black">
         Your browser does not support HTML5 Canvas.
     </canvas>
-    
+    <button id="drawCurve">Draw</button>
     <script>
         // GLOBALS
         const canvas = document.querySelector('#myCanvas');
         const ctx = canvas.getContext("2d");
-
+        const drawButton= document.querySelector("#drawCurve")
         const W = canvas.width, H = canvas.height;
         let b = new Array(); // balls (array of objects)
-        circles=[[(10),(10)],[(200),(200)],[(10),(300)]]
+        circles=[[(10),(10)],[(200),(200)],[(100),(300)]]
         let frame=0
+        let AnimationId
         window.onload = () => {
-            drawLines()
             drawcircles()
-            render();   //start the animation
         };
+
+        //Event Listeners
+        drawButton.addEventListener("click",()=>{
+            render();   //start the animation
+        })
+        
         function drawcircles(){
             for (let i=0;i<circles.length;i++){
+                console.log("ola")
                 ctx.arc(circles[i][0],circles[i][1],5,0,2*Math.PI)
             }
         }
@@ -42,8 +48,13 @@
                 }
             }
          }
+        // function stopAnimation(x,y){
+        //     if ((circles[circles.length-1][0] - 1 <= x && x <= circles[circles.length-1][0]) || (circles[circles.length-1][1] - 1 <= y && y < circles[circles.length-1][1])) {
+        // window.cancelAnimationFrame(AnimationId);
+        //     }
+        // }
        function updatePoint(){
-                    frame+=0.001
+                    frame+=0.005
         // x
                 let x = (1 - frame) **(circles.length-1)* circles[0][0] +
                 (circles.length-1)* frame * (1 - frame) * circles[1][0] +
@@ -58,14 +69,14 @@
                 console.log(`this is y=${y}`)
                 ctx.arc(x,y,2,0,2*Math.PI);
                 ctx.fill()
+                stopAnimation(x,y)
        }
-        
+    
 
         function render() {
-        
             updatePoint()
             //new frame
-            window.requestAnimationFrame(render);
+            AnimationId=window.requestAnimationFrame(render);
         }
 
     </script>
