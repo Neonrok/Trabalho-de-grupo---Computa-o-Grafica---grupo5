@@ -7,6 +7,7 @@ let marge = r*2;
 
 //funções com valores que não podem ser alterados
 let frame = 0;
+let ipart = 0;
 let x = 0;
 let y = 0;
 let arca = [];
@@ -40,8 +41,6 @@ const sav = function(){
         let addArc = {x, y};
         arca.push(addArc);
         console.log(addArc, arca);
-    } else {
-        console.log("erro");
     }
 };
 
@@ -85,31 +84,38 @@ const render = function(){
 
 const movInLines = function(f){
     frame+=0.005;
-    let xS = arca[0].x;
-    let yS = arca[0].y;
+    let xS = arca[f].x;
+    let yS = arca[f].y;
     cav.beginPath();
     cav.moveTo(x, y);
 // x
-    xS = (1 - frame) **(arca.length-1)* arca[f].x +
-    (arca.length-1)* frame * (1 - frame) * arca[f+1].x +
-    frame ** (arca.length-1)* arca[f+2].x;
+console.log(arca[f+2])
+    xS = (1 - frame) **(3-1)* arca[f].x +
+    (3-1)* frame * (1 - frame) * arca[f+1].x +
+    frame ** (3-1)* arca[f+2].x;
 // y
-    yS=(1-frame)**(arca.length-1)*arca[f].y+
-    (arca.length-1)*frame*(1-frame)*arca[f+1].y+
-    frame**(arca.length-1)*arca[f+2].y;
+    yS=(1-frame)**(3-1)*arca[f].y+
+    (3-1)*frame*(1-frame)*arca[f+1].y+
+    frame**(3-1)*arca[f+2].y;
 // desenhar
     cav.lineTo(xS, yS);
     cav.strokeStyle= "red";   
     cav.stroke();
     x=xS;y=yS
 };
-const animaltion = function(){
-    for(let i = 0; i<arca.length-2; i++){
-        movInLines(i);
-        
-    };
+const animaltion = function(i){
+    movInLines(i);
     if (frame<=1){
-        window.requestAnimationFrame(animaltion);
+        window.requestAnimationFrame(() => animaltion(ipart));
+    }else if(ipart<arca.length-3){
+        frame=0;
+        ipart++;
+        x=arca[ipart].x;
+        y=arca[ipart].y;
+        window.requestAnimationFrame(() => animaltion(ipart));
+    }else{
+        frame = 0;
+        ipart = 0;
     };
 };
 
@@ -156,9 +162,9 @@ Draw.addEventListener('click', function(){
     cav.clearRect(0, 0, wid, hei);
     render();
     drawLine();
-    x=arca[0].x;
-    y=arca[0].y;
-    animaltion();
+    x=arca[ipart].x;
+    y=arca[ipart].y;
+    animaltion(ipart);
 })
 
 
