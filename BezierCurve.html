@@ -13,14 +13,17 @@
         Your browser does not support HTML5 Canvas.
     </canvas>
     <button id="drawCurve">Draw</button>
+    <button id="stop">stop</button>
+
     <script>
         // GLOBALS
         const canvas = document.querySelector('#myCanvas');
         const ctx = canvas.getContext("2d");
         const drawButton= document.querySelector("#drawCurve")
+        const stop=document.querySelector("#stop")
         const W = canvas.width, H = canvas.height;
         let b = new Array(); // balls (array of objects)
-        circles=[[(10),(10)],[(200),(200)],[(100),(300)]]
+        circles=[[(10),(10)],[(200),(200)],[(100),(200)]]
         let frame=0
         let AnimationId
         window.onload = () => {
@@ -31,7 +34,9 @@
         drawButton.addEventListener("click",()=>{
             render();   //start the animation
         })
-        
+        stop.addEventListener("click",()=>{
+            cancelAnimationFrame(AnimationId)
+        })        
         function drawcircles(){
             for (let i=0;i<circles.length;i++){
                 console.log("ola")
