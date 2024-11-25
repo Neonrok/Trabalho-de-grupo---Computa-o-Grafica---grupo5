@@ -6,8 +6,6 @@ let r = 10;
 let marge = r*2;
 
 //funções com valores que não podem ser alterados
-let frame = 0;
-let ipart = 0;
 let x = 0;
 let y = 0;
 let arca = [];
@@ -82,14 +80,14 @@ const render = function(){
     }
 };
 
-const movInLines = function(f){
+const movInLines = function(f, xax, yarn, frame){
     frame+=0.005;
     let xS = arca[f].x;
     let yS = arca[f].y;
     cav.beginPath();
-    cav.moveTo(x, y);
+    cav.moveTo(xax, yarn);
 // x
-console.log(arca[f+2])
+    console.log(frame)
     xS = (1 - frame) **(3-1)* arca[f].x +
     (3-1)* frame * (1 - frame) * arca[f+1].x +
     frame ** (3-1)* arca[f+2].x;
@@ -101,22 +99,13 @@ console.log(arca[f+2])
     cav.lineTo(xS, yS);
     cav.strokeStyle= "red";   
     cav.stroke();
-    x=xS;y=yS
+    return {xa: xS, ya: yS}
 };
-const animaltion = function(i){
-    movInLines(i);
+const animaltion = function(i, xax, yarn, frame){
+    const { xa, ya } = movInLines(i, xax, yarn, frame);
     if (frame<=1){
-        window.requestAnimationFrame(() => animaltion(ipart));
-    }else if(ipart<arca.length-3){
-        frame=0;
-        ipart++;
-        x=arca[ipart].x;
-        y=arca[ipart].y;
-        window.requestAnimationFrame(() => animaltion(ipart));
-    }else{
-        frame = 0;
-        ipart = 0;
-    };
+        window.requestAnimationFrame(() => animaltion(i, xa, ya, frame + 0.005));
+    } else {frame = 0};
 };
 
 const toMovInvPoint = function(){
@@ -158,13 +147,15 @@ const toastoded = c.addEventListener('dblclick', function(){
 })
 
 Draw.addEventListener('click', function(){
-    frame=0;
     cav.clearRect(0, 0, wid, hei);
     render();
     drawLine();
-    x=arca[ipart].x;
-    y=arca[ipart].y;
-    animaltion(ipart);
+    for(let i = 0; i<arca.length-2;i++){
+        let frame = 0
+        let xax=arca[i].x;
+        let yarn=arca[i].y;
+        animaltion(i, xax, yarn, frame);
+    };
 })
 
 
