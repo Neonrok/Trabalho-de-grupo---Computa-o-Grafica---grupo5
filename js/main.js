@@ -150,12 +150,16 @@ Draw.addEventListener('click', function(){
     cav.clearRect(0, 0, wid, hei);
     render();
     drawLine();
-    for(let i = 0; i<arca.length-2;i++){
-        let frame = 0
-        let xax=arca[i].x;
-        let yarn=arca[i].y;
-        animaltion(i, xax, yarn, frame);
-    };
+    if (arca.length > 2){
+        for(let i = 0; i<arca.length-2;i++){
+            let frame = 0
+            let xax=arca[i].x;
+            let yarn=arca[i].y;
+            animaltion(i, xax, yarn, frame);
+        };
+    } else {
+        alert("Erro! Para criar curvas tem que existir pelo menos 3 pontos.");
+    }
 })
 
 
