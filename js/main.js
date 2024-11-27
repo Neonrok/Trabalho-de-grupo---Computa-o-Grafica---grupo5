@@ -103,26 +103,33 @@ const movInLines = function(f, xax, yarn, frame){
 };
 
 const creatACurv = function(numbers){
-    console.log("hi1")
+    console.log("hi1");
+    let frame = 0;
     const intPro = [];
-    for (let i = 0; i < numbers.length - 1; i++) {
-
+    intPro.push(numbers[0]);
+    for (let i = 0; i < numbers.length - 1; i+=2) {
+        frame+=0.005
+        let NexX=numbers[i][0]+((numbers[i+1][0] - numbers[i][0])*frame);
+        let Nexy=numbers[i][1]+((numbers[i+1][1] - numbers[i][1])*frame);
+        intPro.push([NexX, Nexy])
     }
     console.log("hi1")
+    console.log(intPro, frame)
 
   // Second step: Multiply all intermediate products
-  for (let i = 1; i < intPro.length; i++) {
-    cav.beginPath();
-    cav.moveTo(intPro[i-1][0], intPro[i-1][1]);
-    cav.lineTo(intPro[i-1][0], intPro[i-1][1]);
-    cav.strokeStyle= "blue";
+    for (let i = 1; i < intPro.length; i++) {
+        cav.beginPath();
+        cav.moveTo(intPro[i-1][0], intPro[i-1][1]);
+        cav.lineTo(intPro[i][0], intPro[i][1]);
+        cav.strokeStyle= "blue";
+        cav.stroke();
   }
 
 };
 
 const animaltion = function(i, xax, yarn, frame){
     const { xa, ya } = movInLines(i, xax, yarn, frame);
-    let r =[xa, ya, i]
+    let r =[xa, ya]
     if (frame<=1){
         curv.push(r);
         window.requestAnimationFrame(() => animaltion(i, xa, ya, frame + 0.005));
@@ -132,7 +139,7 @@ const animaltion = function(i, xax, yarn, frame){
     // Draw the single curve after all segments are processed
         if (i === arca.length-3 && i > 0) {
             console.log(i)
-            //creatACurv(curv);
+            creatACurv(curv);
         }
     };
 };
