@@ -104,17 +104,18 @@ const movInLines = function(f, xax, yarn, frame){
 
 const creatACurv = function(numbers){
     console.log("hi1")
-    const intermediateProducts = [];
+    const intPro = [];
     for (let i = 0; i < numbers.length - 1; i++) {
-        console.log("hi1")
-        intermediateProducts.push(numbers[i][0] * numbers[i + 1][0]);
+
     }
     console.log("hi1")
 
   // Second step: Multiply all intermediate products
-  let produtoFinal = produtosIntermediarios[0];
-  for (let i = 1; i < produtosIntermediarios.length; i++) {
-    produtoFinal *= produtosIntermediarios[i];
+  for (let i = 1; i < intPro.length; i++) {
+    cav.beginPath();
+    cav.moveTo(intPro[i-1][0], intPro[i-1][1]);
+    cav.lineTo(intPro[i-1][0], intPro[i-1][1]);
+    cav.strokeStyle= "blue";
   }
 
 };
@@ -129,7 +130,7 @@ const animaltion = function(i, xax, yarn, frame){
         frame = 0;
         console.log(curv);
     // Draw the single curve after all segments are processed
-        if (i >= 1) {
+        if (i === arca.length-3 && i > 0) {
             console.log(i)
             //creatACurv(curv);
         }
