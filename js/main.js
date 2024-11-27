@@ -9,6 +9,7 @@ let marge = r*2;
 let x = 0;
 let y = 0;
 let arca = [];
+let curv = [];
 const Draw = document.getElementById('SDraw');
 
 let c = document.querySelector(".cava");
@@ -87,7 +88,6 @@ const movInLines = function(f, xax, yarn, frame){
     cav.beginPath();
     cav.moveTo(xax, yarn);
 // x
-    console.log(frame)
     xS = (1 - frame) **(3-1)* arca[f].x +
     (3-1)* frame * (1 - frame) * arca[f+1].x +
     frame ** (3-1)* arca[f+2].x;
@@ -101,11 +101,39 @@ const movInLines = function(f, xax, yarn, frame){
     cav.stroke();
     return {xa: xS, ya: yS}
 };
+
+const creatACurv = function(numbers){
+    console.log("hi1")
+    const intermediateProducts = [];
+    for (let i = 0; i < numbers.length - 1; i++) {
+        console.log("hi1")
+        intermediateProducts.push(numbers[i][0] * numbers[i + 1][0]);
+    }
+    console.log("hi1")
+
+  // Second step: Multiply all intermediate products
+  let produtoFinal = produtosIntermediarios[0];
+  for (let i = 1; i < produtosIntermediarios.length; i++) {
+    produtoFinal *= produtosIntermediarios[i];
+  }
+
+};
+
 const animaltion = function(i, xax, yarn, frame){
     const { xa, ya } = movInLines(i, xax, yarn, frame);
+    let r =[xa, ya, i]
     if (frame<=1){
+        curv.push(r);
         window.requestAnimationFrame(() => animaltion(i, xa, ya, frame + 0.005));
-    } else {frame = 0};
+    } else {
+        frame = 0;
+        console.log(curv);
+    // Draw the single curve after all segments are processed
+        if (i >= 1) {
+            console.log(i)
+            //creatACurv(curv);
+        }
+    };
 };
 
 const toMovInvPoint = function(){
@@ -147,6 +175,7 @@ const toastoded = c.addEventListener('dblclick', function(){
 })
 
 Draw.addEventListener('click', function(){
+    curv = []
     cav.clearRect(0, 0, wid, hei);
     render();
     drawLine();
@@ -160,6 +189,4 @@ Draw.addEventListener('click', function(){
     } else {
         alert("Erro! Para criar curvas tem que existir pelo menos 3 pontos.");
     }
-})
-
-
+});
