@@ -120,50 +120,70 @@ const partA = function(r, numbers){
     return AcRet
 };
 
+const partB = function(s, Nota){
+    let r = s;
+    let PartA=Nota;
+    let PartB=[];
+    let NexX;
+    let Nexy;
+    console.log(PartA)
+    while(r>1){
+        if (PartA[0] != undefined){
+            for(let j=0; j<=r-1; j++){
+                let frame= 0;
+                for(let i = 0; i < PartA.length/(r+1); i++){
+                    frame+=0.005
+                    NexX=PartA[i+((j-1)*199)+199].NexX+((PartA[i+((j)*199)+199].NexX - PartA[i+((j-1)*199)+199].NexX)*frame);
+                    Nexy=PartA[i+((j-1)*199)+199].Nexy+((PartA[i+((j)*199)+199].Nexy - PartA[i+((j-1)*199)+199].Nexy)*frame);
+                    PartB.push([NexX, Nexy]);
+                };
+            };
+            PartA = []
+        }else{
+            for(let j=0; j<=r; j++){
+                let frame= 0;
+                for(let i = 0; i < PartA.length/(r+1); i++){
+                    frame+=0.005
+                    NexX=PartB[i+(j*200)].NexX+((PartB[i+(j*200)+199].NexX - PartB[i+(j*200)].NexX)*frame);
+                    Nexy=PartB[i+(j*200)].Nexy+((PartB[i+(j*200)+199].Nexy - PartB[i+(j*200)].Nexy)*frame);
+                    PartA.push([NexX, Nexy]);
+                };
+            };
+            PartA = []
+        }
+        r--
+    };
+    if(PartA[0] != undefined){
+        console.log(1, PartA);
+        return PartA;
+    }else{
+        console.log(2, PartB);
+        return PartB;
+    }
+    
+}
+
 const creatACurv = function(numbers, s){
     let r = s
     let NexX
     let Nexy
     const intPro = [];
-    let intermedio1 = [];
-    let intermedio2 = [];
+    let intermedio = [];
     intPro.push(numbers[0]);
+    //A parteA serve para fazer a primeira divisão e ordenar de forma a a que caso seja possivel ser feita de forma diferente seja feita de forma simples
     if (r>1){
         let partA1 = partA(r, numbers);
-        intermedio1 = partA1;
+        intermedio = partA1;
         r--;
     }
     console.log(r)
+    //A parteB é feita para resolver o que a A não resolveu "Há mas porque a parte a não resolve todos os problemas" simples é mais facil para mim dividir em duas parte para resolver os problemas
+    if (r>1){
+        let PartB1 = partB(r, intermedio);
+        intermedio = PartB1;
+        console.log(intermedio)
+    } 
 
-    /*
-    while(r>1){
-        if (intermedio1[0] != undefined){
-            for(let i = 0; i < intermedio2.length-1-r; i+=r){
-                let frame= 0;
-                for(let j=0; j<=r; j++){
-                    frame+=0.005
-                    NexX=intermedio2[i+j][0]+((intermedio2[i+j+1][0] - intermedio2[i+j][0])*frame);
-                    Nexy=intermedio2[i+j][1]+((intermedio2[i+j+1][1] - intermedio2[i+j][1])*frame);
-                    intermedio1.push([NexX, Nexy]);
-                };
-            };
-            intermedio2 = []
-        }else{
-            for(let i = 0; i < intermedio1.length-1-r; i+=r){
-                let frame= 0;
-                for(let j=0; j<=r; j++){
-                    frame+=0.005
-                    NexX=intermedio1[i+j][0]+((intermedio1[i+j+1][0] - intermedio1[i+j][0])*frame);
-                    Nexy=intermedio1[i+j][1]+((intermedio1[i+j+1][1] - intermedio1[i+j][1])*frame);
-                    intermedio2.push([NexX, Nexy]);
-                };
-            };
-            intermedio1 = []
-        }
-        r--
-    };
-    */
-    console.log("hi",intermedio1);
     if (r === s){
         let frame= 0;
         for (let i = 0; i < numbers.length - 1; i+=2) {
@@ -171,36 +191,24 @@ const creatACurv = function(numbers, s){
             NexX=numbers[i][0]+((numbers[i+1][0] - numbers[i][0])*frame);
             Nexy=numbers[i][1]+((numbers[i+1][1] - numbers[i][1])*frame);
             intPro.push([NexX, Nexy]);
-        }
-        console.log("1!")
-    } else if(intermedio1[1] != undefined){
-        let frame= 0;
-        for (let i = 0; i < intermedio1.length/2; i++) {
-            frame+=0.005
-            NexX=intermedio1[i].NexX+((intermedio1[i+200].NexX - intermedio1[i].NexX)*frame);
-            Nexy=intermedio1[i].Nexy+((intermedio1[i+200].Nexy - intermedio1[i].Nexy)*frame);
-            intPro.push([NexX, Nexy]);
-       }
-       console.log("2!", intPro)
+        };
     } else {
         let frame= 0;
-        for (let i = 0; i < intermedio2.length/2; i++) {
+        for (let i = 0; i < intermedio.length/2; i++) {
             frame+=0.005
-            NexX=intermedio2[i].NexX+((intermedio2[i+199].NexX - intermedio2[i].NexX)*frame);
-            Nexy=intermedio2[i].Nexy+((intermedio2[i+199].Nexy - intermedio2[i].Nexy)*frame);
+            NexX=intermedio[i].NexX+((intermedio[i+199].NexX - intermedio[i].NexX)*frame);
+            Nexy=intermedio[i].Nexy+((intermedio[i+199].Nexy - intermedio[i].Nexy)*frame);
             intPro.push([NexX, Nexy]);
-       }
-       console.log("3!")
-    }
-    
-    for (let i = 1; i < intPro.length; i++) {
+       };
+    };
 
+    for (let i = 1; i < intPro.length; i++) {
         cav.beginPath();
         cav.moveTo(intPro[i-1][0], intPro[i-1][1]);
         cav.lineTo(intPro[i][0], intPro[i][1]);
         cav.strokeStyle= "blue";
         cav.stroke();
-  }
+    };
 };
 //
 const animaltion = function(i, xax, yarn, frame){
