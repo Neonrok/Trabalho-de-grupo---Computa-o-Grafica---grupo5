@@ -1,4 +1,3 @@
-import * as NS from "./models/registroPontos.js";
 //funões com valores que podem ser alterados
 let wid = 600;
 let hei = 450;
@@ -108,7 +107,9 @@ const partA = function(r, numbers){
     //Está a funcionar
     for (let j = 0; j < r; j++){
         let frame= 0;
-        for(let i = j; i < numbers.length-r+1; i+=1+r){
+        console.log(j)
+        for(let i = j; i < numbers.length+1-r; i+=1+r){
+            console.log(i)
             frame+=0.005
             NexX = numbers[i][0] + ((numbers[i+1][0] - numbers[i][0]) * frame);
             Nexy = numbers[i][1] + ((numbers[i+1][1] - numbers[i][1]) * frame);
@@ -118,6 +119,7 @@ const partA = function(r, numbers){
     return AcRet
 };
 const partB = function(s, Nota){
+    console.log("hi2");
     let r = s;
     let Part=Nota;
     console.log(r, "gg--gg",PartA.length, PartA)
@@ -129,14 +131,15 @@ const partB = function(s, Nota){
     return Part;
 };
 const PartC = function(P, r){
+    console.log("hi3");
     let Lor = P
     let Ret
     for(let j=0; j<=r-1; j++){
         let frame= 0;
         for(let i = j; i < PartB.length-r+1; i+=1+r){
             frame+=0.005
-            NexX=Lor[i+(j*200)].NexX+((Lor[i+(j*200)+199].NexX - Lor[i+(j*200)].NexX)*frame);
-            Nexy=Lor[i+(j*200)].Nexy+((Lor[i+(j*200)+199].Nexy - Lor[i+(j*200)].Nexy)*frame);
+            NexX=Lor[i+(j*200)].NexX+((Lor[i+(j*200)+200].NexX - Lor[i+(j*200)].NexX)*frame);
+            Nexy=Lor[i+(j*200)].Nexy+((Lor[i+(j*200)+200].Nexy - Lor[i+(j*200)].Nexy)*frame);
             Ret.push([NexX, Nexy]);
         };
     };
@@ -151,19 +154,18 @@ const creatACurv = function(numbers, s){
     let intermedio = [];
     intPro.push(numbers[0]);
     //A parteA serve para fazer a primeira divisão e ordenar de forma a a que caso seja possivel ser feita de forma diferente seja feita de forma simples
-    console.log(numbers)
+    console.log("O que entra",numbers)
     if (r>1){
         let partA1 = partA(r, numbers);
         intermedio = partA1;
         r--;
     }
-    console.log(r, intermedio)
+    console.log(r, intermedio, "O que vai para o segundo processo")
     //A parteB é feita para resolver o que a A não resolveu "Há mas porque a parte a não resolve todos os problemas" simples é mais facil para mim dividir em duas parte para resolver os problemas
     if (r>1){
         let PartB1 = partB(r, intermedio);
         intermedio = PartB1;
-    } 
-    console.log(intermedio)
+    };
     if (r === s){
         let frame= 0;
         for (let i = 0; i < numbers.length - 1; i+=2) {
@@ -196,7 +198,7 @@ const creatACurv = function(numbers, s){
             };
         };
     };
-    console.log(intPro)
+    console.log("Final",intPro)
 
     for (let i = 1; i < intPro.length; i++) {
         cav.beginPath();
