@@ -135,6 +135,8 @@ const partB = function(s, Nota){
                     frame+=0.005
                     NexX=PartA[i+((j-1)*199)+199].NexX+((PartA[i+((j)*199)+199].NexX - PartA[i+((j-1)*199)+199].NexX)*frame);
                     Nexy=PartA[i+((j-1)*199)+199].Nexy+((PartA[i+((j)*199)+199].Nexy - PartA[i+((j-1)*199)+199].Nexy)*frame);
+                    NexX=Math.floor(NexX);
+                    Nexy=Math.floor(Nexy);
                     PartB.push([NexX, Nexy]);
                 };
             };
@@ -146,6 +148,8 @@ const partB = function(s, Nota){
                     frame+=0.005
                     NexX=PartB[i+(j*200)].NexX+((PartB[i+(j*200)+199].NexX - PartB[i+(j*200)].NexX)*frame);
                     Nexy=PartB[i+(j*200)].Nexy+((PartB[i+(j*200)+199].Nexy - PartB[i+(j*200)].Nexy)*frame);
+                    NexX=Math.floor(NexX);
+                    Nexy=Math.floor(Nexy);
                     PartA.push([NexX, Nexy]);
                 };
             };
@@ -181,9 +185,8 @@ const creatACurv = function(numbers, s){
     if (r>1){
         let PartB1 = partB(r, intermedio);
         intermedio = PartB1;
-        console.log(intermedio)
+        
     } 
-
     if (r === s){
         let frame= 0;
         for (let i = 0; i < numbers.length - 1; i+=2) {
@@ -193,14 +196,25 @@ const creatACurv = function(numbers, s){
             intPro.push([NexX, Nexy]);
         };
     } else {
+        console.log("Olá e´saqui----------------------------------------")
         let frame= 0;
-        for (let i = 0; i < intermedio.length/2; i++) {
-            frame+=0.005
-            NexX=intermedio[i].NexX+((intermedio[i+199].NexX - intermedio[i].NexX)*frame);
-            Nexy=intermedio[i].Nexy+((intermedio[i+199].Nexy - intermedio[i].Nexy)*frame);
-            intPro.push([NexX, Nexy]);
-       };
+        if (intermedio[199][0]!= undefined){
+            for (let i = 0; i < intermedio.length/2; i++) {
+                frame+=0.005
+                NexX=intermedio[i][0]+((intermedio[i+199][0] - intermedio[i][0])*frame);
+                Nexy=intermedio[i][1]+((intermedio[i+199][1] - intermedio[i][1])*frame);
+                intPro.push([NexX, Nexy]);
+            };
+        }else{
+            for (let i = 0; i < intermedio.length/2; i++) {
+                frame+=0.005
+                NexX=intermedio[i].NexX+((intermedio[i+199].NexX - intermedio[i].NexX)*frame);
+                Nexy=intermedio[i].Nexy+((intermedio[i+199].Nexy - intermedio[i].Nexy)*frame);
+                intPro.push([NexX, Nexy]);
+            };
+        };
     };
+    console.log(intPro)
 
     for (let i = 1; i < intPro.length; i++) {
         cav.beginPath();
