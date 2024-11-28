@@ -42,7 +42,7 @@ const sav = function(){
         console.log(addArc, arca);
     }
 };
-
+//para desenhar os pontos
 const DrawPoint = function(mX, mY){
     const grad=cav.createLinearGradient(mX-r,mY-r, mX+r,mY-r);
     grad.addColorStop(0, "lightblue");
@@ -53,7 +53,6 @@ const DrawPoint = function(mX, mY){
     cav.fill()
     cav.stroke();
 };
-
 const render = function(){
     for(let cot = 0; cot < arca.length; cot++){
         x=arca[cot].x;
@@ -61,9 +60,8 @@ const render = function(){
         DrawPoint(x, y);
     };
 };
-
-
-  const drawLine = function(){
+//desenhar as ligações dos pontos
+const drawLine = function(){
     if (arca.length>=2){
         for(let i=0; i+1<arca.length;i++){
             let p1x = arca[i].x;
@@ -80,7 +78,7 @@ const render = function(){
         }
     }
 };
-
+//começa a confusão para fazer curvas
 const movInLines = function(f, xax, yarn, frame){
     frame+=0.005;
     let xS = arca[f].x;
@@ -101,22 +99,88 @@ const movInLines = function(f, xax, yarn, frame){
     cav.stroke();
     return {xa: xS, ya: yS}
 };
-
-const creatACurv = function(numbers){
-    console.log("hi1");
+//esta funão é para escalar mas está uma confusão
+//P.S. rla é muito grande tem que ser dividida
+const creatACurv = function(numbers, s){
     let frame = 0;
+    let r = s
     const intPro = [];
+    let NexX
+    let Nexy
+    let intermedio1 = [];
+    let intermedio2 = [];
     intPro.push(numbers[0]);
-    for (let i = 0; i < numbers.length - 1; i+=2) {
-        frame+=0.005
-        let NexX=numbers[i][0]+((numbers[i+1][0] - numbers[i][0])*frame);
-        let Nexy=numbers[i][1]+((numbers[i+1][1] - numbers[i][1])*frame);
-        intPro.push([NexX, Nexy])
+    console.log(intPro)
+    if(r>1){console.log("hi1");
+        let frame= 0;
+        for (let j = 0; j < r; j++){
+            for(let i = j; i < numbers.length-r+1; i+=1+r){
+                frame+=0.005
+                NexX = numbers[i][0] + ((numbers[i+1][0] - numbers[i][0]) * frame);
+                Nexy = numbers[i][1] + ((numbers[i+1][1] - numbers[i][1]) * frame);
+                intermedio1.push([NexX, Nexy]);
+            };
+        };
+        r--;
+        console.log(intermedio1)
+    };
+    //console.log(numbers)
+    console.log(r)
+    /*
+    while(r>1){
+        if (intermedio1[0] != undefined){
+            for(let i = 0; i < intermedio2.length-1-r; i+=r){
+                let frame= 0;
+                for(let j=0; j<=r; j++){
+                    frame+=0.005
+                    NexX=intermedio2[i+j][0]+((intermedio2[i+j+1][0] - intermedio2[i+j][0])*frame);
+                    Nexy=intermedio2[i+j][1]+((intermedio2[i+j+1][1] - intermedio2[i+j][1])*frame);
+                    intermedio1.push([NexX, Nexy]);
+                };
+            };
+            intermedio2 = []
+        }else{
+            for(let i = 0; i < intermedio1.length-1-r; i+=r){
+                let frame= 0;
+                for(let j=0; j<=r; j++){
+                    frame+=0.005
+                    NexX=intermedio1[i+j][0]+((intermedio1[i+j+1][0] - intermedio1[i+j][0])*frame);
+                    Nexy=intermedio1[i+j][1]+((intermedio1[i+j+1][1] - intermedio1[i+j][1])*frame);
+                    intermedio2.push([NexX, Nexy]);
+                };
+            };
+            intermedio1 = []
+        }
+        r--
+    };
+    */
+    //console.log(intermedio1, intermedio2);
+    if (r === s){
+        for (let i = 0; i < numbers.length - 1; i+=2) {
+            frame+=0.005
+            NexX=numbers[i][0]+((numbers[i+1][0] - numbers[i][0])*frame);
+            Nexy=numbers[i][1]+((numbers[i+1][1] - numbers[i][1])*frame);
+            intPro.push([NexX, Nexy]);
+        }
+        console.log("1!")
+    } else if(intermedio1[1] != undefined){
+        for (let i = 0; i < intermedio1.length - 1; i+=2) {
+            frame+=0.005
+            NexX=intermedio1[i][0]+((intermedio1[i+1][0] - intermedio1[i][0])*frame);
+            Nexy=intermedio1[i][1]+((intermedio1[i+1][1] - intermedio1[i][1])*frame);
+            intPro.push([NexX, Nexy]);
+       }
+       console.log("2!")
+    } else {
+        for (let i = 0; i < intermedio2.length - 1; i+=2) {
+            frame+=0.005
+            NexX=intermedio2[i][0]+((intermedio2[i+1][0] - intermedio2[i][0])*frame);
+            Nexy=intermedio2[i][1]+((intermedio2[i+1][1] - intermedio2[i][1])*frame);
+            intPro.push([NexX, Nexy]);
+       }
+       console.log("3!")
     }
-    console.log("hi1")
-    console.log(intPro, frame)
-
-  // Second step: Multiply all intermediate products
+    
     for (let i = 1; i < intPro.length; i++) {
         cav.beginPath();
         cav.moveTo(intPro[i-1][0], intPro[i-1][1]);
@@ -124,22 +188,22 @@ const creatACurv = function(numbers){
         cav.strokeStyle= "blue";
         cav.stroke();
   }
-
 };
 
 const animaltion = function(i, xax, yarn, frame){
     const { xa, ya } = movInLines(i, xax, yarn, frame);
     let r =[xa, ya]
     if (frame<=1){
+        //enquanto não forem feitos os 200 frames estarão sempre a criar novos frames
         curv.push(r);
         window.requestAnimationFrame(() => animaltion(i, xa, ya, frame + 0.005));
     } else {
+        //fim da animação
         frame = 0;
-        console.log(curv);
-    // Draw the single curve after all segments are processed
+    // será executado quando as animações terminarem se tiver 4 pontos ou mais
         if (i === arca.length-3 && i > 0) {
-            console.log(i)
-            creatACurv(curv);
+            console.log(i);
+            creatACurv(curv, i);
         }
     };
 };
@@ -151,6 +215,7 @@ const toMovInvPoint = function(){
     };
 };
 
+//apartid daqui são apenas funções de interação
 //não sei o porquê mas quando inicio estas funções as cordenadas aparecem como 0 na primeira vex por isso isto
 mapCordsX();
 mapCordsY();
