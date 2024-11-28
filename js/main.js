@@ -101,29 +101,39 @@ const movInLines = function(f, xax, yarn, frame){
 };
 //esta funão é para escalar mas está uma confusão
 //P.S. rla é muito grande tem que ser dividida
-const creatACurv = function(numbers, s){
-    let frame = 0;
-    let r = s
-    const intPro = [];
+
+const partA = function(r, numbers){
+    console.log("hi1");
     let NexX
     let Nexy
+    let AcRet = [];
+    //Está a funcionar
+    for (let j = 0; j < r; j++){
+        let frame= 0;
+        for(let i = j; i < numbers.length-r+1; i+=1+r){
+            frame+=0.005
+            NexX = numbers[i][0] + ((numbers[i+1][0] - numbers[i][0]) * frame);
+            Nexy = numbers[i][1] + ((numbers[i+1][1] - numbers[i][1]) * frame);
+            AcRet.push({NexX, Nexy, j});
+        };
+    };
+    return AcRet
+};
+
+const creatACurv = function(numbers, s){
+    let r = s
+    let NexX
+    let Nexy
+    const intPro = [];
     let intermedio1 = [];
     let intermedio2 = [];
     intPro.push(numbers[0]);
-    console.log(intPro)
-    if(r>1){console.log("hi1");
-        let frame= 0;
-        for (let j = 0; j < r; j++){
-            for(let i = j; i < numbers.length-r+1; i+=1+r){
-                frame+=0.005
-                NexX = numbers[i][0] + ((numbers[i+1][0] - numbers[i][0]) * frame);
-                Nexy = numbers[i][1] + ((numbers[i+1][1] - numbers[i][1]) * frame);
-                intermedio1.push([NexX, Nexy]);
-            };
-        };
+    if (r>0){
+        let partA1 = partA(r, numbers);
+        intermedio1.push(partA1);
         r--;
-        console.log(intermedio1)
-    };
+    }
+    
     //console.log(numbers)
     console.log(r)
     /*
@@ -154,8 +164,9 @@ const creatACurv = function(numbers, s){
         r--
     };
     */
-    //console.log(intermedio1, intermedio2);
+    console.log(intermedio1);
     if (r === s){
+        let frame= 0;
         for (let i = 0; i < numbers.length - 1; i+=2) {
             frame+=0.005
             NexX=numbers[i][0]+((numbers[i+1][0] - numbers[i][0])*frame);
@@ -163,7 +174,8 @@ const creatACurv = function(numbers, s){
             intPro.push([NexX, Nexy]);
         }
         console.log("1!")
-    } else if(intermedio1[1] != undefined){
+    } else if(intermedio1 != []){
+        let frame= 0;
         for (let i = 0; i < intermedio1.length - 1; i+=2) {
             frame+=0.005
             NexX=intermedio1[i][0]+((intermedio1[i+1][0] - intermedio1[i][0])*frame);
@@ -172,6 +184,7 @@ const creatACurv = function(numbers, s){
        }
        console.log("2!")
     } else {
+        let frame= 0;
         for (let i = 0; i < intermedio2.length - 1; i+=2) {
             frame+=0.005
             NexX=intermedio2[i][0]+((intermedio2[i+1][0] - intermedio2[i][0])*frame);
@@ -189,7 +202,7 @@ const creatACurv = function(numbers, s){
         cav.stroke();
   }
 };
-
+//
 const animaltion = function(i, xax, yarn, frame){
     const { xa, ya } = movInLines(i, xax, yarn, frame);
     let r =[xa, ya]
