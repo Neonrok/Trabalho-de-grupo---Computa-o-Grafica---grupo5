@@ -96,53 +96,56 @@ const movInLines = function(f, xax, yarn, frame){
     cav.lineTo(xS, yS);
     cav.strokeStyle= "red";   
     cav.stroke();
-    return {xa: xS, ya: yS}
+    return {xa: xS, ya: yS, Far: f};
 };
 //estas funõesmservem para resolver os problemas de escalada
-const partA = function(r, numbers){
+const partA = function(s, Nota){
+    console.log("hi2");
+    let r = s;
+    let Part= partB(r, Nota);
+    while(r>=0){
+        Part = PartC(Part, r);
+        r--;
+        console.log(Part, "ff")
+    };
+    
+    return Part;
+};
+const partB = function(r, numbers){
     console.log("hi1");
     let NexX
     let Nexy
     let AcRet = [];
-    //Está a funcionar
-    for (let j = 0; j < r; j++){
-        let frame= 0;
-        console.log(j)
-        for(let i = j; i < numbers.length+1-r; i+=1+r){
-            console.log(i)
-            frame+=0.005
-            NexX = numbers[i][0] + ((numbers[i+1][0] - numbers[i][0]) * frame);
-            Nexy = numbers[i][1] + ((numbers[i+1][1] - numbers[i][1]) * frame);
-            AcRet.push({NexX, Nexy, j});
+    console.log(numbers.length);
+    console.log(r);
+    for (let j = 0; j <= r; j++){
+        for(let i = 0; i < numbers.length; i++){
+            if(numbers[i][2] == numbers[j][2]){
+                NexX = numbers[i][0];
+                Nexy = numbers[i][1];
+                AcRet.push({NexX, Nexy, j});
+            };
         };
     };
     return AcRet
 };
-const partB = function(s, Nota){
-    console.log("hi2");
-    let r = s;
-    let Part=Nota;
-    console.log(r, "gg--gg",PartA.length, PartA)
-    while(r>=0){
-        Part = PartC(Part, r);
-        console.log(r);
-        r--;
-    };
-    return Part;
-};
 const PartC = function(P, r){
-    console.log("hi3");
     let Lor = P
-    let Ret
+    let Ret = []
+    let NexX
+    let Nexy
+    console.log(P.length-r+1)
+    console.log(r)
     for(let j=0; j<=r-1; j++){
         let frame= 0;
-        for(let i = j; i < PartB.length-r+1; i+=1+r){
+        for(let i = 0; i<P.length/(r+1); i++){
             frame+=0.005
             NexX=Lor[i+(j*200)].NexX+((Lor[i+(j*200)+200].NexX - Lor[i+(j*200)].NexX)*frame);
             Nexy=Lor[i+(j*200)].Nexy+((Lor[i+(j*200)+200].Nexy - Lor[i+(j*200)].Nexy)*frame);
             Ret.push([NexX, Nexy]);
         };
     };
+    console.log(Ret, "Ret")
     return Ret
 };
 
@@ -153,20 +156,15 @@ const creatACurv = function(numbers, s){
     const intPro = [];
     let intermedio = [];
     intPro.push(numbers[0]);
-    //A parteA serve para fazer a primeira divisão e ordenar de forma a a que caso seja possivel ser feita de forma diferente seja feita de forma simples
-    console.log("O que entra",numbers)
+    //A parteA serve para organizar os valores e dininuir
     if (r>1){
-        let partA1 = partA(r, numbers);
-        intermedio = partA1;
-        r--;
-    }
-    console.log(r, intermedio, "O que vai para o segundo processo")
-    //A parteB é feita para resolver o que a A não resolveu "Há mas porque a parte a não resolve todos os problemas" simples é mais facil para mim dividir em duas parte para resolver os problemas
-    if (r>1){
-        let PartB1 = partB(r, intermedio);
-        intermedio = PartB1;
+        let Part = partA(r, numbers);
+        intermedio = Part;
+        r--
     };
+    console.log(intermedio, "gg")
     if (r === s){
+    console.log("gg1")
         let frame= 0;
         for (let i = 0; i < numbers.length - 1; i+=2) {
             frame+=0.005
@@ -177,29 +175,18 @@ const creatACurv = function(numbers, s){
             intPro.push([NexX, Nexy]);
         };
     } else {
+        console.log("gg2")
         let frame= 0;
-        if (intermedio[199][0]!= undefined){
-            for (let i = 0; i < intermedio.length/2; i++) {
-                frame+=0.005
-                NexX=intermedio[i][0]+((intermedio[i+199][0] - intermedio[i][0])*frame);
-                Nexy=intermedio[i][1]+((intermedio[i+199][1] - intermedio[i][1])*frame);
-                NexX=Math.floor(NexX);
-                Nexy=Math.floor(Nexy);
-                intPro.push([NexX, Nexy]);
-            };
-        }else{
-            for (let i = 0; i < intermedio.length/2; i++) {
-                frame+=0.005
-                NexX=intermedio[i].NexX+((intermedio[i+199].NexX - intermedio[i].NexX)*frame);
-                Nexy=intermedio[i].Nexy+((intermedio[i+199].Nexy - intermedio[i].Nexy)*frame);
-                NexX=Math.floor(NexX);
-                Nexy=Math.floor(Nexy);
-                intPro.push([NexX, Nexy]);
-            };
+        for (let i = 0; i < intermedio.length/2; i++) {
+            frame+=0.005
+            NexX=intermedio[i].NexX+((intermedio[i+199].NexX - intermedio[i].NexX)*frame);
+            Nexy=intermedio[i].Nexy+((intermedio[i+199].Nexy - intermedio[i].Nexy)*frame);
+            NexX=Math.floor(NexX);
+            Nexy=Math.floor(Nexy);
+            intPro.push([NexX, Nexy]);
         };
     };
     console.log("Final",intPro)
-
     for (let i = 1; i < intPro.length; i++) {
         cav.beginPath();
         cav.moveTo(intPro[i-1][0], intPro[i-1][1]);
@@ -209,8 +196,8 @@ const creatACurv = function(numbers, s){
     };
 };
 const animaltion = function(i, xax, yarn, frame){
-    const { xa, ya } = movInLines(i, xax, yarn, frame);
-    let r =[xa, ya]
+    const { xa, ya, Far } = movInLines(i, xax, yarn, frame);
+    let r =[xa, ya, Far]
     if (frame<=1){
         //enquanto não forem feitos os 200 frames estarão sempre a criar novos frames
         curv.push(r);
