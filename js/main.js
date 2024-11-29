@@ -10,7 +10,7 @@ let y = 0;
 let arca = [];
 let curv = [];
 const Draw = document.getElementById('SDraw');
-
+let icon=document.getElementById("icon")
 let c = document.querySelector(".cava");
 c.width = wid;
 c.height = hei; 
@@ -152,7 +152,9 @@ const AnimaFin = function(intPro, i, frame){
         AnimaFin1(intPro, i)
         window.requestAnimationFrame(() => AnimaFin(intPro, i, frame));
         frame+=0.005;
-        
+    }
+    if(frame>1){
+        icon.src="./Icons/play-button-arrowhead.png"
     }
 };
 const AnimaFin1 = function(intPro, i){
@@ -161,6 +163,7 @@ const AnimaFin1 = function(intPro, i){
     cav.lineTo(intPro[i][0], intPro[i][1]);
     cav.strokeStyle= "blue";
     cav.stroke();
+    console.log("ola2")
 };
 
 const creatACurv = function(numbers, s){
@@ -198,10 +201,11 @@ const creatACurv = function(numbers, s){
             intPro.push([NexX, Nexy]);
         };
     };
-    //Animar agora é possivel com esta invenção onde agora a linha azul é furmada em 200 frames
+    //Animar agora é possivel com esta invenção onde agora a linha azul é formada em 200 frames
     AnimaFin(intPro, Fr, pi);
 };
 const animaltion = function(i, xax, yarn, frame){
+    icon.src="./Icons/pause.png"
     const { xa, ya, Far } = movInLines(i, xax, yarn, frame);
     let r =[xa, ya, Far]
     if (frame<=1){
@@ -211,7 +215,11 @@ const animaltion = function(i, xax, yarn, frame){
     } else {
         //fim da animação
         frame = 0;
+
     // será executado quando as animações terminarem se tiver 4 pontos ou mais
+    if( arca.length==3){
+        icon.src="./Icons/play-button-arrowhead.png"
+    }
         if (i === arca.length-3 && i > 0) {
             creatACurv(curv, i);
         }
@@ -224,6 +232,12 @@ const toMovInvPoint = function(){
         let p1y = arca[i].y;
     };
 };
+//  alteração do icon 
+function iconCheck(frame){
+    if (frame>1){
+        icon.src="./Icons/play-button-arrowhead.png"
+    }
+}
 
 //apartid daqui são apenas funções de interação
 //não sei o porquê mas quando inicio estas funções as cordenadas aparecem como 0 na primeira vex por isso isto

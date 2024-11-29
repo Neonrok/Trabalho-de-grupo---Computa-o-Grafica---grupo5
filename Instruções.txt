@@ -1,0 +1,4 @@
+É necessario ter no minimo 3 pontos para termos a animação a funcionar.
+Interações Rato:
+-click: ao clicar no canvas ira formar um ponto no local onde o rato esta;
+-double click: ao clicar duas vezes num ponto este sera eliminado;

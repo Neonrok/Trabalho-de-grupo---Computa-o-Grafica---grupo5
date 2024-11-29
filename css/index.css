@@ -1,6 +1,6 @@
 
 body{
-    
+    background-color: grey;
 }
 
 .reordenar{
@@ -17,4 +17,26 @@ body{
 
 .cava{
     border: solid black 3px;
+    background-color: white;
+}
+.acoes{
+    display: flex;
+    flex-direction: row;
+}
+#SDraw{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    border-radius:10rem;
+    width: 6vw;
+    font-size: large;
+    transition: 500ms;
+    background-color: green;
+}
+#SDraw:hover{
+    width: 6vw;
+    background-color: red;
+}
+#icon{
+    width: 20px;
 }
