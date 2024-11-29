@@ -103,7 +103,7 @@ const partA = function(s, Nota){
     console.log("hi2");
     let r = s;
     let Part= partB(r, Nota);
-    while(r>=0){
+    while(r>1){
         Part = PartC(Part, r);
         r--;
         console.log(Part, "ff")
@@ -123,29 +123,29 @@ const partB = function(r, numbers){
             if(numbers[i][2] == numbers[j][2]){
                 NexX = numbers[i][0];
                 Nexy = numbers[i][1];
-                AcRet.push({NexX, Nexy, j});
+                AcRet.push([NexX, Nexy]);
             };
         };
     };
     return AcRet
 };
 const PartC = function(P, r){
+    console.log("C ativo")
     let Lor = P
     let Ret = []
     let NexX
     let Nexy
-    console.log(P.length-r+1)
-    console.log(r)
     for(let j=0; j<=r-1; j++){
         let frame= 0;
         for(let i = 0; i<P.length/(r+1); i++){
             frame+=0.005
-            NexX=Lor[i+(j*200)].NexX+((Lor[i+(j*200)+200].NexX - Lor[i+(j*200)].NexX)*frame);
-            Nexy=Lor[i+(j*200)].Nexy+((Lor[i+(j*200)+200].Nexy - Lor[i+(j*200)].Nexy)*frame);
+            NexX=Lor[i+(j*200)][0]+((Lor[i+(j*200)+200][0] - Lor[i+(j*200)][0])*frame);
+            Nexy=Lor[i+(j*200)][1]+((Lor[i+(j*200)+200][1] - Lor[i+(j*200)][1])*frame);
             Ret.push([NexX, Nexy]);
         };
     };
-    console.log(Ret, "Ret")
+    console.log(P.length/(r+1))
+    console.log(Ret, "Ret", P)
     return Ret
 };
 
@@ -157,10 +157,11 @@ const creatACurv = function(numbers, s){
     let intermedio = [];
     intPro.push(numbers[0]);
     //A parteA serve para organizar os valores e dininuir
+    
     if (r>1){
-        let Part = partA(r, numbers);
-        intermedio = Part;
+        intermedio = partA(r, numbers);
         r--
+        console.log(r)
     };
     console.log(intermedio, "gg")
     if (r === s){
@@ -179,8 +180,8 @@ const creatACurv = function(numbers, s){
         let frame= 0;
         for (let i = 0; i < intermedio.length/2; i++) {
             frame+=0.005
-            NexX=intermedio[i].NexX+((intermedio[i+199].NexX - intermedio[i].NexX)*frame);
-            Nexy=intermedio[i].Nexy+((intermedio[i+199].Nexy - intermedio[i].Nexy)*frame);
+            NexX=intermedio[i][0]+((intermedio[i+199][0]- intermedio[i][0])*frame);
+            Nexy=intermedio[i][1]+((intermedio[i+199][1] - intermedio[i][1])*frame);
             NexX=Math.floor(NexX);
             Nexy=Math.floor(Nexy);
             intPro.push([NexX, Nexy]);
@@ -207,7 +208,6 @@ const animaltion = function(i, xax, yarn, frame){
         frame = 0;
     // será executado quando as animações terminarem se tiver 4 pontos ou mais
         if (i === arca.length-3 && i > 0) {
-            console.log(i);
             creatACurv(curv, i);
         }
     };
