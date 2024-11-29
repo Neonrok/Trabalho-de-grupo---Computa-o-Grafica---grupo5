@@ -7,20 +7,24 @@
     <link rel="stylesheet" href="./css/index.css">
 </head>
 <body>
-    <div>
-        <h1 id="titulo"></h1>
-    </div>
-    <div class="reordenar"><div class="limites_visuais">
-        <div class="acoes"><!--local para ficar os butões-->
-            <button id="SDraw">Start<img id="icon" src="./Icons/play-button-arrowhead.png"></button>
-            
+    <div class="reordenar">
+        <div class="limites_visuais">
+            <div class="tituloDiv">
+                <h1 id="titulo">Wacky Curve Machine</h1>
+            </div>
+            <br>
+            <canvas class="cava">
+                Lamento em informar mas este browser não suporta o html5
+                <!--só irá aparecer se o browser não suportar o html5-->
+            </canvas>        
+            <div class="acoes"><!--local para ficar os butões-->
+                <button id="SDraw">DRAW <img id="icon" src="./Icons/play-button-arrowhead.png"></button>
+            </div>
         </div>
-        <br>
-        <canvas class="cava">
-            Lamento em informar mas este browser não suporta o html5
-            <!--só irá aparecer se o browser não suportar o html5-->
-        </canvas>
-    </div></div>
-    <script type="module" src="./js/main.js"></script>
+        <div id="stand"></div>
+        <div id="base"></div>
+    </div>
+
 </body>
+    <script type="module" src="./js/main.js"></script>
 </html>
