@@ -149,15 +149,34 @@ const PartC = function(P, r){
     return Ret
 };
 
+const AnimaFin = function(intPro, i, frame){
+    console.log("hi")
+    if(frame<=1){
+        i++;
+        AnimaFin1(intPro, i)
+        window.requestAnimationFrame(() => AnimaFin(intPro, i, frame));
+        frame+=0.005;
+        
+    }
+};
+const AnimaFin1 = function(intPro, i){
+    cav.beginPath();
+    cav.moveTo(intPro[i-1][0], intPro[i-1][1]);
+    cav.lineTo(intPro[i][0], intPro[i][1]);
+    cav.strokeStyle= "blue";
+    cav.stroke();
+};
+
 const creatACurv = function(numbers, s){
-    let r = s
-    let NexX
-    let Nexy
+    let r = s;
+    let NexX;
+    let Nexy;
+    let Fr= 0;
+    let pi= 0;
     const intPro = [];
     let intermedio = [];
     intPro.push(numbers[0]);
     //A parteA serve para organizar os valores e dininuir
-    
     if (r>1){
         intermedio = partA(r, numbers);
         r--
@@ -188,13 +207,8 @@ const creatACurv = function(numbers, s){
         };
     };
     console.log("Final",intPro)
-    for (let i = 1; i < intPro.length; i++) {
-        cav.beginPath();
-        cav.moveTo(intPro[i-1][0], intPro[i-1][1]);
-        cav.lineTo(intPro[i][0], intPro[i][1]);
-        cav.strokeStyle= "blue";
-        cav.stroke();
-    };
+    //Animar agora é possivel com esta invenção onde agora a linha azul é furmada em 200 frames
+    AnimaFin(intPro, Fr, pi);
 };
 const animaltion = function(i, xax, yarn, frame){
     const { xa, ya, Far } = movInLines(i, xax, yarn, frame);
