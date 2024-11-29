@@ -130,7 +130,6 @@ const partB = function(r, numbers){
     return AcRet
 };
 const PartC = function(P, r){
-    console.log("C ativo")
     let Lor = P
     let Ret = []
     let NexX
@@ -144,13 +143,10 @@ const PartC = function(P, r){
             Ret.push([NexX, Nexy]);
         };
     };
-    console.log(P.length/(r+1))
-    console.log(Ret, "Ret", P)
     return Ret
 };
 
 const AnimaFin = function(intPro, i, frame){
-    console.log("hi")
     if(frame<=1){
         i++;
         AnimaFin1(intPro, i)
@@ -179,12 +175,9 @@ const creatACurv = function(numbers, s){
     //A parteA serve para organizar os valores e dininuir
     if (r>1){
         intermedio = partA(r, numbers);
-        r--
-        console.log(r)
+        r--;
     };
-    console.log(intermedio, "gg")
     if (r === s){
-    console.log("gg1")
         let frame= 0;
         for (let i = 0; i < numbers.length - 1; i+=2) {
             frame+=0.005
@@ -195,7 +188,6 @@ const creatACurv = function(numbers, s){
             intPro.push([NexX, Nexy]);
         };
     } else {
-        console.log("gg2")
         let frame= 0;
         for (let i = 0; i < intermedio.length/2; i++) {
             frame+=0.005
@@ -206,7 +198,6 @@ const creatACurv = function(numbers, s){
             intPro.push([NexX, Nexy]);
         };
     };
-    console.log("Final",intPro)
     //Animar agora é possivel com esta invenção onde agora a linha azul é furmada em 200 frames
     AnimaFin(intPro, Fr, pi);
 };
