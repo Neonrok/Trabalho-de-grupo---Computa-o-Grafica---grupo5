@@ -99,6 +99,11 @@ const movInLines = function(f, xax, yarn, frame){
     return {xa: xS, ya: yS, Far: f};
 };
 //estas funõesmservem para resolver os problemas de escalada
+//para alguem que estiver a ler isto. Eu fiquei uma semana para conseguir por isto a funcionar.
+//asserio embora seja bem simples a logica:
+//partA vai comportar a partB e por o ciclo da partC a funcionar
+//partB vai ajeitar a lista dos pontos para que a partC fassa o seu trabalho
+//partC faz a media entre os pontos da curva  x-1 e a linha x, eu escrevi x e x-1 para sinplificar que será por exemplo a media da curva 0 com a 1, a 1 com a 2 e assim indo isso por mais esquesito que paressa só para fazer isto demorei mais de uma semana para fazer algo tão simples:(. 
 const partA = function(s, Nota){
     console.log("hi2");
     let r = s;
